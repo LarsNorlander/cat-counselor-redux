@@ -3,7 +3,7 @@ package com.larsnorlander.catcounselorredux.counseling
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class ExtractSetOfStrengthsTest {
+class ExtractStrengthsTest {
 
     private companion object {
         const val SCIENCE = "Science"
@@ -20,7 +20,7 @@ class ExtractSetOfStrengthsTest {
     fun `get only item`() {
         val data = mapOf(SCIENCE to ANY_GRADE)
 
-        val result = data.extractSetOfStrengths()
+        val result = data.extractStrengths()
 
         assertEquals(result, setOf(SCIENCE))
     }
@@ -30,7 +30,7 @@ class ExtractSetOfStrengthsTest {
         val data = mapOf(SCIENCE to PERFECT_GRADE,
                 MATH to FAILED_GRADE)
 
-        val result = data.extractSetOfStrengths()
+        val result = data.extractStrengths()
 
         assertEquals(result, setOf(SCIENCE))
     }
@@ -41,7 +41,7 @@ class ExtractSetOfStrengthsTest {
                 MATH to MID_GRADE,
                 ENGLISH to FAILED_GRADE)
 
-        val result = data.extractSetOfStrengths()
+        val result = data.extractStrengths()
 
         assertEquals(result, setOf(SCIENCE, MATH))
     }
