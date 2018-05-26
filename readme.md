@@ -18,7 +18,7 @@ Because the old code is abysmal! I have no idea what's going on in there now tha
 the requirements of the system since I designed it myself (and wrote it just less than two years back). Since the time
 that I've wrote that thing, I've learned so many things and have read so many books. So I'd like to apply the things 
 I've learned like Clean Code, Test Driven Development, Domain Driven Design (well, still learning that, I'll try), 
-the SOLID principles (the actual proper SOLID principles) and bunch more. I'm also writing this in Kotlin. Why Kotlin?
+the SOLID principles (the actual proper SOLID principles) and a bunch more. I'm also writing this in Kotlin. Why Kotlin?
 Well, coz why not? Actually no, I want to learn the language and apply it properly.
 
 ## 100 Days of Code
@@ -29,7 +29,7 @@ definitely better than coding zero hours per day as I've been doing previously.
 
 ## A Bunch of Random 💩
 
-This section is going to get really freakin' messy. It's just going to be a huge brain dump here on out.
+*This section is going to get really freakin' messy. It's just going to be a huge brain dump here on out.*
 
 ### The Why of CAT Counselor
 
