@@ -1,4 +1,4 @@
-package com.larsnorlander.catcounselorredux
+package com.larsnorlander.catcounselorredux.counseling
 
 import java.util.stream.IntStream
 

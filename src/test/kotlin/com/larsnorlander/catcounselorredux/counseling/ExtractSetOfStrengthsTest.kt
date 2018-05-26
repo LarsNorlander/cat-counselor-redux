@@ -1,4 +1,4 @@
-package com.larsnorlander.catcounselorredux
+package com.larsnorlander.catcounselorredux.counseling
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
