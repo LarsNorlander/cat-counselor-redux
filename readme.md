@@ -1,0 +1,98 @@
+# CAT Counselor Redux: A 100 Days of Code Project
+
+This is a rewrite of the application for my college thesis, CAT Counselor. CAT Counselor used to compose of two parts,
+a [CAT Ranker](https://github.com/LarsNorlander/cat-ranker), which was just a REST API that took in the data needed by
+the main system – [CAT Counselor](https://github.com/LarsNorlander/cat-counselor), and spat out the complete results.
+
+The reason for this split was just so that I could finish my thesis as quickly as possible. Ranker was written in Groovy
+and Spring because I was most comfortable with Groovy writing algorithms and it was the language I was taught to use
+during my summer job at TORO. Counselor on the other hand was written in PHP and Laravel because that was the language
+and framework I was very well versed with for writing systems before my summer job.
+
+> You could view my original thesis [here](https://drive.google.com/drive/folders/0Bw9dayd0bBAGbUs4OVU2VWppdlU?usp=sharing).
+I know, it's pretty rough and definitely could have been a lot better.
+
+## Why a Rewrite?
+
+Because the old code is abysmal! I have no idea what's going on in there now that I look at it. Luckily, I remember all
+the requirements of the system since I designed it myself (and wrote it just less than two years back). Since the time
+that I've wrote that thing, I've learned so many things and have read so many books. So I'd like to apply the things 
+I've learned like Clean Code, Test Driven Development, Domain Driven Design (well, still learning that, I'll try), 
+the SOLID principles (the actual proper SOLID principles) and bunch more. I'm also writing this in Kotlin. Why Kotlin?
+Well, coz why not? Actually no, I want to learn the language and apply it properly.
+
+## 100 Days of Code
+
+I've been putting this project off for a while now and the [#100DaysOfCode](http://www.100daysofcode.com/) challenge.
+I've finally decided to bring the two together so that I could hit two birds with one stone. Coding an hour a day is
+definitely better than coding zero hours per day as I've been doing previously.
+
+## A Bunch of Random 💩
+
+This section is going to get really freakin' messy. It's just going to be a huge brain dump here on out.
+
+### The Why of CAT Counselor
+
+CAT Counselor is actually short for Computerized Academic Track Counselor. Shortening it to CAT Counselor just gave me a
+cheap mascot. So for context, here in the Philippines K-12 is divided into four levels of preschool, six grades of 
+elementary, four years of junior high school, and two year of senior high school. In senior high school, there are 
+several tracks students could choose from. However, if you plan on going to college, you'll have to take up the Academic
+Track. This Academic Track is further divided into four *strands*, namely:
+
+* Accountancy, Business and Management (ABM)
+* Humanities and Social Sciences (HUMSS)
+* Science, Technology, Engineering and Mathematics (STEM)
+* General Academic Strand (GAS)
+
+Most students however have no idea what they want in their career life. This is evidenced by the fact that in our
+university, students keep shifting courses. 
+
+> Now, I didn't really measure this properly for my thesis back then but our professor probably let it pass at the time 
+because she knew it was true. I realize now that this is a big flaw in my study.
+
+This shifting of courses would be more problematic for the new generation of students who have to pick a strand in 
+junior high school. If they pick ABM and decide it's not for them when they reach college, what then? That's a pretty 
+expensive mistake – people are already complaining about the addition of two years.
+
+So with that, CAT Counselor is aimed at helping students determine which strand is best for them given their grades,
+career assessment exam, awards and preferences. The algorithm of course, is a heuristic. We developed it with the help 
+of educators in our area and we found that most students got a better understanding of what's best for them and what 
+they have to improve if their best preference is not at the top of the results.
+
+### How The Algorithm Works
+
+When we talked to the educator about how we'd help students, we basically associate certain subjects to a strand. 
+Meaning if a student is good at science and math, they'll probably fit well in STEM. But if say, STEM required more than
+that but another strand required less, they'd probably be better off in that other stand. So, how do we compute this?
+
+Well, we take all the student's grades and average it. This average is then used to get the student's set of strengths 
+by taking all the subjects that have a grade higher than it. Each strand then has a set of required subjects that is
+determined by the educator. First, we get the union of both sets and rank strands by number of elements in the union. 
+The greater the number, the more a strand is recommended. If there's a tie however, we then get the difference of the
+set of requirements and the set of strengths. This will give us a set containing all the subjects required by the strand
+that the student isn't strong in. We then break the tie by comparing the size of this set, the smaller the number of 
+unmet requirements, the more it would be recommended. Finally, if there's still a tie, the one the student prefers is 
+going to rank higher.
+
+This computation works the same way for other measurements like the career assessment exam and number of awards. The
+results of these different criteria are then averaged. There is a problem however with the way this was originally 
+implemented. Originally, each criteria was sorted using the method discussed in the previous paragraph and then given
+scores. These scores were then aggregated from the different criteria to create the final ranking and if there was a 
+tie, it would be broken by preference. This created a situation where one strand should have been more suited to
+a student when you look at the detailed results. The mistake here is that preference should only be used as a final tie
+breaker when all the scores have been aggregated and shouldn't have been used at the criteria level.
+
+### Building Up The Project
+
+I used to write apps in a way that just yells, "WEB APP!!!" to your face. All the implementation details like databases 
+and presentation were front and center. I now know that it's wrong (if you follow the school of 
+[Uncle Bob](https://github.com/unclebob)) to do so and that the architecture of the system should say, "Counseling App!"
+instead.
+
+> But despite the fact, I have generated the project using Spring Initializr. It's just convenient and please give me a 
+pass on this one.
+
+This time around, I'll do my best to develop the app with use cases and push implementation details till the
+last minute, strive to do test driven development, and properly model my domain.
+
+Well... I'll try at least. Here I go.
