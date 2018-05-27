@@ -4,6 +4,8 @@ interface RequirementsProvider {
 
     fun getAllCriteria(): Set<String>
 
-    fun getRequirementsForCriteria(criteria: String): Map<String, Set<String>>
+    fun getAllStrands(): Set<String>
+
+    fun getRequirementsForStrandInCriteria(strand: String, criteria: String): Set<String>
 
 }

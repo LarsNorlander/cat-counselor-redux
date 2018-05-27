@@ -17,16 +17,15 @@ abstract class RequirementsProviderTest {
     }
 
     @Test
-    fun `get all strands in criteria`() {
-        val gradeStrands = requirementsProvider.getRequirementsForCriteria("Grades")
-                .keys
+    fun `get all strands`() {
+        val strands = requirementsProvider.getAllStrands()
 
-        assertThat(gradeStrands, `is`(equalTo(setOf("STEM", "ABM"))))
+        assertThat(strands, `is`(equalTo(setOf("STEM", "ABM"))))
     }
 
     @Test
     fun `get all requirements from strand in criteria`() {
-        val requirements = requirementsProvider.getRequirementsForCriteria("Grades")["STEM"]
+        val requirements = requirementsProvider.getRequirementsForStrandInCriteria("STEM", "Grades")
 
         assertThat(requirements, `is`(equalTo(setOf("Science", "Math"))))
     }
