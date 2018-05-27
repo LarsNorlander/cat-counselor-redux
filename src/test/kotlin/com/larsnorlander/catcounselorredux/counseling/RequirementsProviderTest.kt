@@ -9,24 +9,37 @@ abstract class RequirementsProviderTest {
 
     protected lateinit var requirementsProvider: RequirementsProvider
 
+    private companion object {
+        private const val GRADES = "Grades"
+        private const val AWARDS = "Awards"
+
+        private const val STEM = "STEM"
+        private const val ABM = "ABM"
+
+        private const val SCIENCE = "Science"
+        private const val MATH = "Math"
+    }
+
+
     @Test
     fun `get all criteria`() {
         val criteria = requirementsProvider.getAllCriteria()
 
-        assertThat(criteria, `is`(equalTo(setOf("Grades", "Awards"))))
+        assertThat(criteria, `is`(equalTo(setOf(GRADES, AWARDS))))
     }
+
 
     @Test
     fun `get all strands`() {
         val strands = requirementsProvider.getAllStrands()
 
-        assertThat(strands, `is`(equalTo(setOf("STEM", "ABM"))))
+        assertThat(strands, `is`(equalTo(setOf(STEM, ABM))))
     }
 
     @Test
     fun `get all requirements from strand in criteria`() {
-        val requirements = requirementsProvider.getRequirementsForStrandInCriteria("STEM", "Grades")
+        val requirements = requirementsProvider.getRequirementsForStrandInCriteria(STEM, GRADES)
 
-        assertThat(requirements, `is`(equalTo(setOf("Science", "Math"))))
+        assertThat(requirements, `is`(equalTo(setOf(SCIENCE, MATH))))
     }
 }
