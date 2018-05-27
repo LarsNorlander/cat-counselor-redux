@@ -42,6 +42,10 @@ repositories {
 
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter')
+
+	compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.+"
+	compile('com.fasterxml.jackson.core:jackson-databind:2.9.5')
+
 	compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	compile("org.jetbrains.kotlin:kotlin-reflect")
 	testCompile('org.springframework.boot:spring-boot-starter-test')
