@@ -6,14 +6,12 @@ import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.empty
 import org.junit.Test
 
-class ComputeMatchesAndMissesTest {
+private const val SCIENCE = "Science"
+private const val MATH = "Math"
+private const val HISTORY = "History"
+private const val COMPUTER = "Computer"
 
-    private companion object {
-        private const val SCIENCE = "Science"
-        private const val MATH = "Math"
-        private const val HISTORY = "History"
-        private const val COMPUTER = "Computer"
-    }
+class ComputeMatchesAndMissesTest {
 
     @Test
     fun `perfect match`() {
@@ -24,7 +22,6 @@ class ComputeMatchesAndMissesTest {
         assertThat(result.matches, `is`(equalTo(subjects)))
         assertThat(result.misses, `is`(empty()))
     }
-
 
     @Test
     fun `no match`() {
