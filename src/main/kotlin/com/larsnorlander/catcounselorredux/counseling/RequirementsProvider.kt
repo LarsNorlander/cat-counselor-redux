@@ -6,6 +6,6 @@ interface RequirementsProvider {
 
     fun getAllStrands(): Set<String>
 
-    fun getRequirementsForStrandInCriteria(strand: String, criteria: String): Set<String>
+    fun getRequirementsFor(strand: String, criteria: String): Set<String>
 
 }

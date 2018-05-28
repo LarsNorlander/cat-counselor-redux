@@ -17,7 +17,7 @@ class MockRequirementsProvider : RequirementsProvider {
         return setOf(STEM, ABM, HUMSS)
     }
 
-    override fun getRequirementsForStrandInCriteria(strand: String, criteria: String) = when (strand) {
+    override fun getRequirementsFor(strand: String, criteria: String) = when (strand) {
         STEM -> criteria.requirementsFor(
                 grades = setOf("Science", "Math", "Computer"),
                 ncae = setOf("Logical Ability", "Scientific Thinking", "Programming"))

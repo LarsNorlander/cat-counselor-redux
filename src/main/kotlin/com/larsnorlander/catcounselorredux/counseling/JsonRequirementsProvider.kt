@@ -19,7 +19,7 @@ class JsonRequirementsProvider(inputStream: InputStream) : RequirementsProvider 
         return requirements.strands
     }
 
-    override fun getRequirementsForStrandInCriteria(strand: String, criteria: String): Set<String> {
+    override fun getRequirementsFor(strand: String, criteria: String): Set<String> {
         return requirements.data[criteria]!![strand]!!
     }
 }
