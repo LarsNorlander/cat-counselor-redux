@@ -1,44 +1,77 @@
 package com.larsnorlander.catcounselorredux.counseling
 
-private const val NCAE = "NCAE"
-private const val GRADES = "Grades"
-
-private const val ABCD_XYZ = "ABCD_XYZ"
-private const val ABE_WXY = "ABE_WXY"
-private const val BCF_UVW = "BCF_UVW"
+import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.CoreMatchers.equalTo
+import org.hamcrest.MatcherAssert.assertThat
+import org.junit.Test
 
 class CounselorTest {
 
-    private val counselor: Counselor = Counselor(MockRequirementsProvider())
+    @Test
+    fun `item with more matches is higher`() {
+        val counselor = Counselor(MockRequirementsProvider(
+                criteria = setOf("Grades"),
+                strands = setOf("ABM", "STEM"),
+                requirements = { strand, _ ->
+                    when (strand) {
+                        "STEM" -> setOf("A", "B", "C")
+                        "ABM" -> setOf("A", "B", "D")
+                        else -> throw RuntimeException("Non-existent strand")
+                    }
+                }
+        ))
+        val records: Records = mapOf("Grades" to mapOf(
+                "A" to 100,
+                "B" to 100,
+                "C" to 100,
+                "D" to 70
+        ))
+        val preferences = listOf("STEM", "ABM")
 
-}
+        val result = counselor.assess(records = records, preferences = preferences)
 
-private class MockRequirementsProvider : RequirementsProvider {
-
-    override fun getAllCriteria(): Set<String> {
-        return setOf(GRADES, NCAE)
+        assertThat(result.ranking, `is`(equalTo(listOf("STEM", "ABM"))))
     }
 
-    override fun getAllStrands(): Set<String> {
-        return setOf(ABCD_XYZ, ABE_WXY, BCF_UVW)
+    // Test tie matches and item with less requirements is higher
+    @Test
+    fun `matches tie and item with less requirements is higher`() {
+        val counselor = Counselor(MockRequirementsProvider(
+                criteria = setOf("Grades"),
+                strands = setOf("STEM", "ABM"),
+                requirements = { strand, _ ->
+                    when (strand) {
+                        "STEM" -> setOf("A", "B", "C", "D")
+                        "ABM" -> setOf("A", "B", "C")
+                        else -> throw RuntimeException("Non-existent strand")
+                    }
+                }
+        ))
+        val records: Records = mapOf("Grades" to mapOf(
+                "A" to 100,
+                "B" to 100,
+                "C" to 100,
+                "D" to 70
+        ))
+        val preferences = listOf("STEM", "ABM")
+
+        val result = counselor.assess(records = records, preferences = preferences)
+
+        assertThat(result.ranking, `is`(equalTo(listOf("ABM", "STEM"))))
     }
 
-    override fun getRequirementsFor(strand: String, criteria: String) = when (strand) {
-        ABCD_XYZ -> criteria.requirementsFor(
-                grades = setOf("A", "B", "C", "D"),
-                ncae = setOf("X", "Y", "Z"))
-        ABE_WXY -> criteria.requirementsFor(
-                grades = setOf("A", "B", "E"),
-                ncae = setOf("W", "X", "Y"))
-        BCF_UVW -> criteria.requirementsFor(
-                grades = setOf("B", "C", "F"),
-                ncae = setOf("U", "V", "W"))
-        else -> throw RuntimeException("Non-existent strand")
+    private class MockRequirementsProvider(
+            val criteria: Set<String>,
+            val strands: Set<String>,
+            val requirements: (String, String) -> Set<String>
+    ) : RequirementsProvider {
+
+        override fun getAllCriteria() = criteria
+
+        override fun getAllStrands() = strands
+
+        override fun getRequirementsFor(strand: String, criteria: String) = requirements.invoke(strand, criteria)
+
     }
 
-    private fun String.requirementsFor(grades: Set<String>, ncae: Set<String>) = when (this) {
-        GRADES -> grades
-        NCAE -> ncae
-        else -> throw RuntimeException("Non-existent criteria")
-    }
 }
