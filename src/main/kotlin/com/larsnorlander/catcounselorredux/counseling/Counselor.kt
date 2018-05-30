@@ -16,6 +16,10 @@ class Counselor(private val requirementsProvider: RequirementsProvider) {
                 strand to strengths.computeMatchesAndMissesFor(requirements)
             }.toMap()
 
+            // go through matches and misses, the total amount of score that could be given
+            // is (n(n+1))/2. E.g. if n = 3, then total amount of score that could be given is
+            // 1 + 2 + 3. If
+
             val matchesComparator = Comparator.comparing { strand: String -> matchesAndMisses[strand]!!.matches.size }
             val missesComparator = Comparator.comparing { strand: String -> matchesAndMisses[strand]!!.misses.size }
             val rankedList = requirementsProvider.getAllStrands()
@@ -26,6 +30,13 @@ class Counselor(private val requirementsProvider: RequirementsProvider) {
         TODO("Doesn't actually loop around multiple criteria yet.")
     }
 
+    private fun sumRange(range: IntRange) {
+        var sum = 0
+        for (i in range) {
+            sum += i
+        }
+    }
+
 }
 
-data class CounselorResult(val ranking: List<String>)
+data class CounselorResult(val ranking: Map<String, Double>)

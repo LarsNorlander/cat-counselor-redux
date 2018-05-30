@@ -1,8 +1,8 @@
 package com.larsnorlander.catcounselorredux.counseling
 
 import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.Matchers.greaterThan
 import org.junit.Test
 
 class CounselorTest {
@@ -30,7 +30,7 @@ class CounselorTest {
 
         val result = counselor.assess(records = records, preferences = preferences)
 
-        assertThat(result.ranking, `is`(equalTo(listOf("STEM", "ABM"))))
+        assertThat(result.ranking["STEM"]!!, `is`(greaterThan(result.ranking["ABM"]!!)))
     }
 
     // Test tie matches and item with less requirements is higher
@@ -57,7 +57,7 @@ class CounselorTest {
 
         val result = counselor.assess(records = records, preferences = preferences)
 
-        assertThat(result.ranking, `is`(equalTo(listOf("ABM", "STEM"))))
+        assertThat(result.ranking["ABM"]!!, `is`(greaterThan(result.ranking["STEM"]!!)))
     }
 
     private class MockRequirementsProvider(
