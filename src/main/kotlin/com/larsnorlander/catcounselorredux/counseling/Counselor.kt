@@ -15,7 +15,12 @@ class Counselor(private val requirementsProvider: RequirementsProvider) {
             }.toMap()
 
             val rankedList = requirementsProvider.getAllStrands().sortedWith(
-                    compareByDescending { matchesAndMisses[it]!!.matches.size }
+                    Comparator { o1, o2 ->
+                        if (matchesAndMisses[o1]!!.matches.size == matchesAndMisses[o2]!!.matches.size )
+                            matchesAndMisses[o1]!!.misses.size.compareTo(matchesAndMisses[o2]!!.misses.size)
+                        else
+                            matchesAndMisses[o2]!!.matches.size.compareTo(matchesAndMisses[o1]!!.matches.size)
+                    }
             )
             return CounselorResult(rankedList)
         }
