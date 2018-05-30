@@ -1,5 +1,7 @@
 package com.larsnorlander.catcounselorredux.counseling
 
+import java.util.*
+
 typealias Records = Map<String, Map<String, Int>>
 
 class Counselor(private val requirementsProvider: RequirementsProvider) {
@@ -14,14 +16,11 @@ class Counselor(private val requirementsProvider: RequirementsProvider) {
                 strand to strengths.computeMatchesAndMissesFor(requirements)
             }.toMap()
 
-            val rankedList = requirementsProvider.getAllStrands().sortedWith(
-                    Comparator { o1, o2 ->
-                        if (matchesAndMisses[o1]!!.matches.size == matchesAndMisses[o2]!!.matches.size )
-                            matchesAndMisses[o1]!!.misses.size.compareTo(matchesAndMisses[o2]!!.misses.size)
-                        else
-                            matchesAndMisses[o2]!!.matches.size.compareTo(matchesAndMisses[o1]!!.matches.size)
-                    }
-            )
+            val matchesComparator = Comparator.comparing { strand: String -> matchesAndMisses[strand]!!.matches.size }
+            val missesComparator = Comparator.comparing { strand: String -> matchesAndMisses[strand]!!.misses.size }
+            val rankedList = requirementsProvider.getAllStrands()
+                    .sortedWith(matchesComparator.reversed()
+                                    .thenComparing(missesComparator))
             return CounselorResult(rankedList)
         }
         TODO("Doesn't actually loop around multiple criteria yet.")
