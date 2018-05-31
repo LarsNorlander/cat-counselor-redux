@@ -17,7 +17,7 @@ class ExtractStrengthsTest {
     fun `get only item`() {
         val data = mapOf(SCIENCE to ANY_GRADE)
 
-        val result = data.extractStrengths()
+        val result = data.getStrengths()
 
         assertEquals(result, setOf(SCIENCE))
     }
@@ -27,7 +27,7 @@ class ExtractStrengthsTest {
         val data = mapOf(SCIENCE to PERFECT_GRADE,
                 MATH to FAILED_GRADE)
 
-        val result = data.extractStrengths()
+        val result = data.getStrengths()
 
         assertEquals(result, setOf(SCIENCE))
     }
@@ -38,7 +38,7 @@ class ExtractStrengthsTest {
                 MATH to MID_GRADE,
                 ENGLISH to FAILED_GRADE)
 
-        val result = data.extractStrengths()
+        val result = data.getStrengths()
 
         assertEquals(result, setOf(SCIENCE, MATH))
     }

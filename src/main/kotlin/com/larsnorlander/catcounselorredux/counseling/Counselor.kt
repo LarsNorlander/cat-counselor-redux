@@ -6,16 +6,12 @@ class Counselor(private val requirementsProvider: RequirementsProvider) {
 
     fun assess(records: Records, preferences: List<String>): CounselorResult {
         for (criterion in records.keys) {
-            val strengths = records[criterion]!!.extractStrengths()
-            val matchesAndMisses = requirementsProvider.getAllStrands().map { strand ->
-                val requirements = requirementsProvider.getRequirementsFor(
-                        criteria = criterion,
-                        strand = strand)
-                strand to strengths.computeMatchesAndMissesFor(requirements)
-            }.toMap()
+            val strengths = records[criterion]!!.getStrengths()
+            val matchesAndMisses = requirementsProvider.getAllStrands()
+                    .map { strand -> strand to strengths.computeMatchesAndMissesFor(strand = strand, criterion = criterion) }.toMap()
 
             val rankedMap = requirementsProvider.getAllStrands().groupBy { strand ->
-                Pair(matchesAndMisses[strand]!!.matches.size, matchesAndMisses[strand]!!.misses.size)
+                matchesAndMisses[strand]!!.matches.size to matchesAndMisses[strand]!!.misses.size
             }.toSortedMap(compareByDescending<Pair<Int, Int>> { it.first }.thenBy { it.second })
 
             var allocatableScore = requirementsProvider.getAllStrands().size
@@ -23,11 +19,11 @@ class Counselor(private val requirementsProvider: RequirementsProvider) {
 
             for (strands in rankedMap.values) {
                 var scoreForTier = 0
-                for (strand in strands) {
+                strands.forEach {
                     scoreForTier += allocatableScore
                     allocatableScore--
                 }
-                for (strand in strands) {
+                strands.forEach { strand ->
                     resultMap[strand] = scoreForTier / strands.size.toDouble()
                 }
             }
@@ -35,6 +31,13 @@ class Counselor(private val requirementsProvider: RequirementsProvider) {
             return CounselorResult(resultMap.toMap())
         }
         TODO("Doesn't actually loop around multiple criteria yet.")
+    }
+
+    private fun Set<String>.computeMatchesAndMissesFor(strand: String, criterion: String): MatchesAndMissesPair {
+        val requirements = requirementsProvider.getRequirementsFor(criteria = criterion, strand = strand)
+        val matches = this.intersect(requirements)
+        val misses = requirements.minus(this)
+        return MatchesAndMissesPair(matches, misses)
     }
 
 }
