@@ -1,7 +1,5 @@
 package com.larsnorlander.catcounselorredux.counseling
 
-import java.util.*
-
 typealias Records = Map<String, Map<String, Int>>
 
 class Counselor(private val requirementsProvider: RequirementsProvider) {
@@ -16,25 +14,27 @@ class Counselor(private val requirementsProvider: RequirementsProvider) {
                 strand to strengths.computeMatchesAndMissesFor(requirements)
             }.toMap()
 
-            // go through matches and misses, the total amount of score that could be given
-            // is (n(n+1))/2. E.g. if n = 3, then total amount of score that could be given is
-            // 1 + 2 + 3. If
+            val rankedMap = requirementsProvider.getAllStrands().groupBy { strand ->
+                Pair(matchesAndMisses[strand]!!.matches.size, matchesAndMisses[strand]!!.misses.size)
+            }.toSortedMap(compareByDescending<Pair<Int, Int>> { it.first }.thenBy { it.second })
 
-            val matchesComparator = Comparator.comparing { strand: String -> matchesAndMisses[strand]!!.matches.size }
-            val missesComparator = Comparator.comparing { strand: String -> matchesAndMisses[strand]!!.misses.size }
-            val rankedList = requirementsProvider.getAllStrands()
-                    .sortedWith(matchesComparator.reversed()
-                                    .thenComparing(missesComparator))
-            return CounselorResult(rankedList)
+            var allocatableScore = requirementsProvider.getAllStrands().size
+            val resultMap = mutableMapOf<String, Double>()
+
+            for (strands in rankedMap.values) {
+                var scoreForTier = 0
+                for (strand in strands) {
+                    scoreForTier += allocatableScore
+                    allocatableScore--
+                }
+                for (strand in strands) {
+                    resultMap[strand] = scoreForTier / strands.size.toDouble()
+                }
+            }
+
+            return CounselorResult(resultMap.toMap())
         }
         TODO("Doesn't actually loop around multiple criteria yet.")
-    }
-
-    private fun sumRange(range: IntRange) {
-        var sum = 0
-        for (i in range) {
-            sum += i
-        }
     }
 
 }
