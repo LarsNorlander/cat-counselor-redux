@@ -2,7 +2,7 @@ package com.larsnorlander.catcounselorredux.counseling
 
 import java.util.stream.IntStream
 
-fun Map<String, Int>.getStrengths(): Set<String> {
+fun Records.getStrengths(): Set<Strength> {
     val average: Int = this.computeAverageValue()
     return this.extractKeysWithValueGreaterOrEqual(average)
 }

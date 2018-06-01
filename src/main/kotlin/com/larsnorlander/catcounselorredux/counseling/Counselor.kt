@@ -1,10 +1,15 @@
 package com.larsnorlander.catcounselorredux.counseling
 
-typealias Records = Map<String, Map<String, Int>>
+typealias Criterion = String
+typealias Records = Map<Item, Score>
+typealias Item = String
+typealias Score = Int
+typealias Strand = String
+typealias Strength = String
 
 class Counselor(private val requirementsProvider: RequirementsProvider) {
 
-    fun assess(records: Records, preferences: List<String>): CounselorResult {
+    fun assess(records: Map<Criterion, Records>, preferences: List<Strand>): CounselorResult {
         for (criterion in records.keys) {
             val strengths = records[criterion]!!.getStrengths()
             val matchesAndMisses = requirementsProvider.getAllStrands()
@@ -33,7 +38,7 @@ class Counselor(private val requirementsProvider: RequirementsProvider) {
         TODO("Doesn't actually loop around multiple criteria yet.")
     }
 
-    private fun Set<String>.computeMatchesAndMissesFor(strand: String, criterion: String): MatchesAndMissesPair {
+    private fun Set<Strength>.computeMatchesAndMissesFor(strand: Strand, criterion: Criterion): MatchesAndMissesPair {
         val requirements = requirementsProvider.getRequirementsFor(criteria = criterion, strand = strand)
         val matches = this.intersect(requirements)
         val misses = requirements.minus(this)
