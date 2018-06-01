@@ -14,27 +14,27 @@ private const val ABM = "ABM"
 private const val SCIENCE = "Science"
 private const val MATH = "Math"
 
-abstract class RequirementsProviderTest {
+abstract class SpecificationTest {
 
-    protected lateinit var requirementsProvider: RequirementsProvider
+    protected lateinit var specification: Specification
 
     @Test
     fun `get all criteria`() {
-        val criteria = requirementsProvider.criteria
+        val criteria = specification.criteria
 
         assertThat(criteria, `is`(equalTo(setOf(GRADES, AWARDS))))
     }
 
     @Test
     fun `get all strands`() {
-        val strands = requirementsProvider.strands
+        val strands = specification.strands
 
         assertThat(strands, `is`(equalTo(setOf(STEM, ABM))))
     }
 
     @Test
     fun `get all requirements from strand in criteria`() {
-        val requirements = requirementsProvider.getRequirementsFor(strand = STEM, criteria = GRADES)
+        val requirements = specification.requirementsFor(strand = STEM, criteria = GRADES)
 
         assertThat(requirements, `is`(equalTo(setOf(SCIENCE, MATH))))
     }

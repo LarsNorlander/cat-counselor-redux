@@ -9,7 +9,7 @@ class CounselorTest {
 
     @Test
     fun `item with more matches is higher`() {
-        val counselor = Counselor(MockRequirementsProvider(
+        val counselor = Counselor(MockSpecification(
                 criteriaData= setOf("Grades"),
                 strandsData = setOf("ABM", "STEM"),
                 requirements = { strand, _ ->
@@ -36,7 +36,7 @@ class CounselorTest {
     // Test tie matches and item with less requirements is higher
     @Test
     fun `matches tie and item with less requirements is higher`() {
-        val counselor = Counselor(MockRequirementsProvider(
+        val counselor = Counselor(MockSpecification(
                 criteriaData = setOf("Grades"),
                 strandsData = setOf("STEM", "ABM"),
                 requirements = { strand, _ ->
@@ -60,11 +60,11 @@ class CounselorTest {
         assertThat(result.ranking["ABM"]!!, `is`(greaterThan(result.ranking["STEM"]!!)))
     }
 
-    private class MockRequirementsProvider(
+    private class MockSpecification(
             val criteriaData: Set<Criterion>,
             val strandsData: Set<Strand>,
             val requirements: (String, String) -> Set<String>
-    ) : RequirementsProvider {
+    ) : Specification {
 
         override val criteria: Set<Criterion>
             get() = criteriaData
@@ -72,7 +72,7 @@ class CounselorTest {
         override val strands: Set<Strand>
             get() = strandsData
 
-        override fun getRequirementsFor(strand: String, criteria: String) = requirements.invoke(strand, criteria)
+        override fun requirementsFor(strand: String, criteria: String) = requirements.invoke(strand, criteria)
 
     }
 

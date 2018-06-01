@@ -2,13 +2,13 @@ package com.larsnorlander.catcounselorredux.counseling
 
 import org.junit.Before
 
-class JsonRequirementsProviderTestImpl : RequirementsProviderTest() {
+class JsonSpecificationTestImpl : SpecificationTest() {
     @Before
     fun setUp() {
         val data = "{\n" +
                 "  \"criteria\": [\"Grades\", \"Awards\"],\n" +
                 "  \"strands\": [\"STEM\", \"ABM\"],\n" +
-                "  \"data\": {\n" +
+                "  \"requirements\": {\n" +
                 "    \"Grades\": {\n" +
                 "      \"STEM\": [\"Science\", \"Math\"],\n" +
                 "      \"ABM\":[\"English\"]\n" +
@@ -19,6 +19,6 @@ class JsonRequirementsProviderTestImpl : RequirementsProviderTest() {
                 "    }  \n" +
                 "  }\n" +
                 "}"
-        requirementsProvider = JsonRequirementsProvider(data.byteInputStream())
+        specification = JsonSpecification(data.byteInputStream())
     }
 }

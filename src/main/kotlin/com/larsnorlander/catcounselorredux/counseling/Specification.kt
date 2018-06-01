@@ -1,11 +1,11 @@
 package com.larsnorlander.catcounselorredux.counseling
 
-interface RequirementsProvider {
+interface Specification {
 
     val criteria: Set<Criterion>
 
     val strands: Set<Strand>
 
-    fun getRequirementsFor(strand: Strand, criteria: Criterion): Set<Item>
+    fun requirementsFor(strand: Strand, criteria: Criterion): Set<Item>
 
 }

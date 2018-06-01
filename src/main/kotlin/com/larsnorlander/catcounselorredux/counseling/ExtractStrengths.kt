@@ -2,11 +2,10 @@ package com.larsnorlander.catcounselorredux.counseling
 
 import java.util.stream.DoubleStream
 
-val Records.strengths
-    get(): Set<Strength> {
-        val average: Double = this.computeAverageScore()
-        return this.extractItemsWithScoreGreaterOrEqual(average)
-    }
+fun Records.computeStrengths(): Set<Item> {
+    val average: Double = this.computeAverageScore()
+    return this.extractItemsWithScoreGreaterOrEqual(average)
+}
 
 private fun Records.extractItemsWithScoreGreaterOrEqual(average: Double) =
         this.filter { it.value >= average }.keys
