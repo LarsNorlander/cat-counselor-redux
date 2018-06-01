@@ -28,7 +28,7 @@ class CounselorTest {
         ))
         val preferences = listOf("STEM", "ABM")
 
-        val result = counselor.assess(records = records, preferences = preferences)
+        val result = counselor.assess(data = records, preferences = preferences)
 
         assertThat(result.ranking["STEM"]!!, `is`(greaterThan(result.ranking["ABM"]!!)))
     }
@@ -55,7 +55,7 @@ class CounselorTest {
         ))
         val preferences = listOf("STEM", "ABM")
 
-        val result = counselor.assess(records = records, preferences = preferences)
+        val result = counselor.assess(data = records, preferences = preferences)
 
         assertThat(result.ranking["ABM"]!!, `is`(greaterThan(result.ranking["STEM"]!!)))
     }
