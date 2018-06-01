@@ -2,10 +2,10 @@ package com.larsnorlander.catcounselorredux.counseling
 
 interface RequirementsProvider {
 
-    fun getAllCriteria(): Set<String>
+    val criteria: Set<Criterion>
 
-    fun getAllStrands(): Set<String>
+    val strands: Set<Strand>
 
-    fun getRequirementsFor(strand: String, criteria: String): Set<String>
+    fun getRequirementsFor(strand: Strand, criteria: Criterion): Set<Item>
 
 }

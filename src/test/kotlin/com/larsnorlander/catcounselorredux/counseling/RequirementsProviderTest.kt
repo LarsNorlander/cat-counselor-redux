@@ -20,14 +20,14 @@ abstract class RequirementsProviderTest {
 
     @Test
     fun `get all criteria`() {
-        val criteria = requirementsProvider.getAllCriteria()
+        val criteria = requirementsProvider.criteria
 
         assertThat(criteria, `is`(equalTo(setOf(GRADES, AWARDS))))
     }
 
     @Test
     fun `get all strands`() {
-        val strands = requirementsProvider.getAllStrands()
+        val strands = requirementsProvider.strands
 
         assertThat(strands, `is`(equalTo(setOf(STEM, ABM))))
     }

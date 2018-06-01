@@ -1,27 +1,19 @@
 package com.larsnorlander.catcounselorredux.counseling
 
-typealias Criterion = String
-typealias Records = Map<Item, Score>
-typealias Item = String
-typealias Score = Int
-typealias Strand = String
-typealias Strength = String
-
 class Counselor(private val requirementsProvider: RequirementsProvider) {
 
     fun assess(records: Map<Criterion, Records>, preferences: List<Strand>): CounselorResult {
         for (criterion in records.keys) {
-            val strengths = records[criterion]!!.getStrengths()
-            val matchesAndMisses = requirementsProvider.getAllStrands()
+            val strengths = records[criterion]!!.strengths
+            val matchesAndMisses = requirementsProvider.strands
                     .map { strand -> strand to strengths.computeMatchesAndMissesFor(strand = strand, criterion = criterion) }.toMap()
 
-            val rankedMap = requirementsProvider.getAllStrands().groupBy { strand ->
-                matchesAndMisses[strand]!!.matches.size to matchesAndMisses[strand]!!.misses.size
+            val rankedMap = requirementsProvider.strands.groupBy { strand ->
+                matchesAndMisses[strand]!!.matchesCount to matchesAndMisses[strand]!!.missesCount
             }.toSortedMap(compareByDescending<Pair<Int, Int>> { it.first }.thenBy { it.second })
 
-            var allocatableScore = requirementsProvider.getAllStrands().size
-            val resultMap = mutableMapOf<String, Double>()
-
+            var allocatableScore = requirementsProvider.strands.size
+            val resultMap = mutableMapOf<Strand, Score>()
             for (strands in rankedMap.values) {
                 var scoreForTier = 0
                 strands.forEach {

@@ -1,14 +1,15 @@
 package com.larsnorlander.catcounselorredux.counseling
 
-import java.util.stream.IntStream
+import java.util.stream.DoubleStream
 
-fun Records.getStrengths(): Set<Strength> {
-    val average: Int = this.computeAverageValue()
-    return this.extractKeysWithValueGreaterOrEqual(average)
-}
+val Records.strengths
+    get(): Set<Strength> {
+        val average: Double = this.computeAverageScore()
+        return this.extractItemsWithScoreGreaterOrEqual(average)
+    }
 
-private fun Map<String, Int>.extractKeysWithValueGreaterOrEqual(average: Int) =
+private fun Records.extractItemsWithScoreGreaterOrEqual(average: Double) =
         this.filter { it.value >= average }.keys
 
-private fun Map<String, Int>.computeAverageValue() =
-        IntStream.of(*this.values.toIntArray()).sum() / this.size
+private fun Records.computeAverageScore() =
+        DoubleStream.of(*this.values.toDoubleArray()).sum() / this.size

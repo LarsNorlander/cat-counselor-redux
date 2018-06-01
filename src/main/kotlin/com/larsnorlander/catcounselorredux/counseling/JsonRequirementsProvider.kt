@@ -11,19 +11,17 @@ class JsonRequirementsProvider(inputStream: InputStream) : RequirementsProvider 
             .registerKotlinModule()
             .readValue(inputStream)
 
-    override fun getAllCriteria(): Set<String> {
-        return requirements.criteria
-    }
+    override val criteria: Set<Criterion>
+        get() = requirements.criteria
 
-    override fun getAllStrands(): Set<String> {
-        return requirements.strands
-    }
+    override val strands: Set<Strand>
+        get() = requirements.strands
 
-    override fun getRequirementsFor(strand: String, criteria: String): Set<String> {
+    override fun getRequirementsFor(strand: Strand, criteria: Criterion): Set<Item> {
         return requirements.data[criteria]!![strand]!!
     }
 }
 
-private data class JsonRequirements(val criteria: Set<String>,
-                                    val strands: Set<String>,
-                                    val data: Map<String, Map<String, Set<String>>>)
+private data class JsonRequirements(val criteria: Set<Criterion>,
+                                    val strands: Set<Strand>,
+                                    val data: Map<Criterion, Map<Strand, Set<Item>>>)

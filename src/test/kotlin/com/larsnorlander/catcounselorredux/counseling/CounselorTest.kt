@@ -10,8 +10,8 @@ class CounselorTest {
     @Test
     fun `item with more matches is higher`() {
         val counselor = Counselor(MockRequirementsProvider(
-                criteria = setOf("Grades"),
-                strands = setOf("ABM", "STEM"),
+                criteriaData= setOf("Grades"),
+                strandsData = setOf("ABM", "STEM"),
                 requirements = { strand, _ ->
                     when (strand) {
                         "STEM" -> setOf("A", "B", "C")
@@ -20,11 +20,11 @@ class CounselorTest {
                     }
                 }
         ))
-        val records: Records = mapOf("Grades" to mapOf(
-                "A" to 100,
-                "B" to 100,
-                "C" to 100,
-                "D" to 70
+        val records: Map<Criterion, Records> = mapOf("Grades" to mapOf(
+                "A" to 100.0,
+                "B" to 100.0,
+                "C" to 100.0,
+                "D" to 70.0
         ))
         val preferences = listOf("STEM", "ABM")
 
@@ -37,8 +37,8 @@ class CounselorTest {
     @Test
     fun `matches tie and item with less requirements is higher`() {
         val counselor = Counselor(MockRequirementsProvider(
-                criteria = setOf("Grades"),
-                strands = setOf("STEM", "ABM"),
+                criteriaData = setOf("Grades"),
+                strandsData = setOf("STEM", "ABM"),
                 requirements = { strand, _ ->
                     when (strand) {
                         "STEM" -> setOf("A", "B", "C", "D")
@@ -47,11 +47,11 @@ class CounselorTest {
                     }
                 }
         ))
-        val records: Records = mapOf("Grades" to mapOf(
-                "A" to 100,
-                "B" to 100,
-                "C" to 100,
-                "D" to 70
+        val records: Map<Criterion, Records> = mapOf("Grades" to mapOf(
+                "A" to 100.0,
+                "B" to 100.0,
+                "C" to 100.0,
+                "D" to 70.0
         ))
         val preferences = listOf("STEM", "ABM")
 
@@ -61,14 +61,16 @@ class CounselorTest {
     }
 
     private class MockRequirementsProvider(
-            val criteria: Set<String>,
-            val strands: Set<String>,
+            val criteriaData: Set<Criterion>,
+            val strandsData: Set<Strand>,
             val requirements: (String, String) -> Set<String>
     ) : RequirementsProvider {
 
-        override fun getAllCriteria() = criteria
+        override val criteria: Set<Criterion>
+            get() = criteriaData
 
-        override fun getAllStrands() = strands
+        override val strands: Set<Strand>
+            get() = strandsData
 
         override fun getRequirementsFor(strand: String, criteria: String) = requirements.invoke(strand, criteria)
 
