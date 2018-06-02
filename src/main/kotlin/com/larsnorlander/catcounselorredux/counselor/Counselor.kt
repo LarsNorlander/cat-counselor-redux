@@ -7,7 +7,7 @@ import java.util.stream.DoubleStream
 
 class Counselor(private val specification: List<Strand>) {
     fun computeStatistics(strandName: String, records: Map<Criterion, Map<Item, Score>>): Map<Criterion, Statistics> {
-        val strand = specification.find { it.name == strandName }!!
+        val strand = findStrand(strandName)
         val statistics = mutableMapOf<Criterion, Statistics>()
         for ((criterion, scores) in records) {
             if (strand doesNotHaveRequirementsFor criterion) continue
@@ -16,6 +16,9 @@ class Counselor(private val specification: List<Strand>) {
         }
         return statistics
     }
+
+    private fun findStrand(strandName: String) = specification.find { it.name == strandName }
+            ?: throw IllegalArgumentException("'$strandName' isn't a valid strand.")
 
     private infix fun Strand.doesNotHaveRequirementsFor(criterion: Criterion) =
             !this.requirements.containsKey(criterion)
@@ -32,6 +35,3 @@ class Counselor(private val specification: List<Strand>) {
     }
 }
 
-data class Strand(val name: String, val requirements: Map<Criterion, Set<Item>>)
-
-data class Statistics(val matches: Set<Item>, val misses: Set<Item>)

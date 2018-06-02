@@ -27,6 +27,10 @@ class CounselorTest {
         assertThat(result[anyCriterion]!!.misses.size, `is`(equalTo(1)))
     }
 
+    @Test(expected = IllegalArgumentException::class)
+    fun `throws exception for non-existent strand`() {
+        Counselor(emptyList()).computeStatistics(anyStrand, emptyMap())
+    }
 }
 
 
