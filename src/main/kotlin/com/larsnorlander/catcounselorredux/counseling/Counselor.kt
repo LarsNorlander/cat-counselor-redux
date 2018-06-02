@@ -57,4 +57,4 @@ class Counselor(private val specification: Specification) {
 
 }
 
-data class CounselorResult(val ranking: Map<String, Double>)
+data class CounselorResult(val scores: Map<Strand, Score>)
