@@ -1,5 +1,8 @@
 package com.larsnorlander.catcounselorredux.counselor
 
+import Criterion
+import Item
+import Score
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
@@ -11,7 +14,7 @@ class CounselorTest {
     private val anyCriterion = "any criterion"
 
     @Test
-    fun `get statistics for strand with 1 match and 1 miss`() {
+    fun `get statistics for strand with 1 match and 1 miss for 1 criterion`() {
         val stem = Strand(name = anyStrand, requirements = mapOf(anyCriterion to setOf("A", "B")))
         val specification = listOf(stem)
         val records: Map<Criterion, Map<Item, Score>> = mapOf(anyCriterion to mapOf("A" to 1.0, "B" to 0.0))

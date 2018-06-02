@@ -1,16 +1,9 @@
 package com.larsnorlander.catcounselorredux.counselor
 
+import Criterion
+import Item
+import Score
 import java.util.stream.DoubleStream
-
-typealias Score = Double
-
-typealias Criterion = String
-
-typealias Item = String
-
-data class Strand(val name: String, val requirements: Map<Criterion, Set<Item>>)
-
-data class Statistics(val matches: Set<Item>, val misses: Set<Item>)
 
 class Counselor(private val specification: List<Strand>) {
     fun computeStatistics(strandName: String, records: Map<Criterion, Map<Item, Score>>): Map<Criterion, Statistics> {
@@ -38,3 +31,7 @@ class Counselor(private val specification: List<Strand>) {
         return scores.filter { it.value >= averageScore }.keys
     }
 }
+
+data class Strand(val name: String, val requirements: Map<Criterion, Set<Item>>)
+
+data class Statistics(val matches: Set<Item>, val misses: Set<Item>)
