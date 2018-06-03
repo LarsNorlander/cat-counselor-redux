@@ -96,3 +96,73 @@ This time around, I'll do my best to develop the app with use cases and push imp
 last minute, strive to do test driven development, and properly model my domain.
 
 Well... I'll try at least. Here I go.
+
+---
+# Brain Dumps 💩
+
+## June 4, 2018
+
+The top most important thing is the Strand, not the criterion.
+
+So basically, it should be something like,
+
+For the Science, Technology, Engineering and Math strand, you’ll need to be good at Science and Math. In the NCAE side 
+of things, you’ll need to have Logical Ability, Scientific Thinking and something else.
+
+So that should look like this:
+
+```yaml
+STEM:
+    Grades:
+        - Science
+        - Math
+    NCAE:
+        - Logical Ability
+        - Scientific Thinking
+GAS:
+    Grades:
+        - English
+        - Filipino
+```
+
+Getting the list of strands should then be as easy as getting all the keys. Getting all the fields for a criterion would
+ be, going through the values, and getting the union of each set.
+
+and so the Specification class should have the following properties
+
+```
+Specification                     
+
++ strands: List<Strand>            
++ criteria: Set<Criteria>          
++ itemsForCriterion: Set<Item>     
+```
+
+The strands should contain the following fields
+
+```
+Strand
+
++ name: String
++ requirements: Map<Criterion, Set<Item>>
+```
+
+Type Aliases
+```kotlin
+typealias Criteria = String
+typealias Item = String
+```
+
+Given a specification, the counselor should be able to do a few things.
+
+Use cases:
+* Tell a student what their statistics are for a particular strand
+    * Tell the student the strand they are asking does not exist›
+* Score the different strands for a criteria, e.g. score the strands given just grades
+* Score the different strands for all available data
+
+```
+Counselor
+
++ computeStatistics(strandName: String, records:Map<Criterion, Map<Item, Score>>): StrandStatistics
+```
