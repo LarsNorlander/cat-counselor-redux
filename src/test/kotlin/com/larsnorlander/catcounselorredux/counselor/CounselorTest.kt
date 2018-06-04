@@ -108,6 +108,34 @@ class CounselorTest {
 
         assertThat(strandScores[ABM]!!, `is`(equalTo(strandScores[STEM]!!)))
     }
+
+    @Test
+    fun `add strand scores across criteria`() {
+        val specification = listOf(
+            Strand(name = STEM, requirements = mapOf("Grades" to setOf("A", "B"), "NCAE" to setOf("X", "Y"))),
+            Strand(name = ABM, requirements = mapOf("Grades" to setOf("A", "C"), "NCAE" to setOf("X", "Z"))))
+        val counselor = Counselor(specification)
+        val gradeScores: Map<Item, Score> = mapOf(
+                "A" to UPPER_BOUND_SCORE,
+                "B" to UPPER_BOUND_SCORE,
+                "C" to LOWER_BOUND_SCORE)
+        val gradeStrandScores = counselor.scoreStrands(
+                criterion = "Grades",
+                scores = gradeScores)
+        val ncaeScores: Map<Item, Score> = mapOf(
+                "X" to UPPER_BOUND_SCORE,
+                "Y" to UPPER_BOUND_SCORE,
+                "Z" to LOWER_BOUND_SCORE)
+        val ncaeStrandScores = counselor.scoreStrands(
+                criterion = "NCAE",
+                scores = ncaeScores)
+        val records = mapOf("Grades" to gradeScores, "NCAE" to ncaeScores)
+
+        val overallScores: Map<String, Score> = counselor.scoreStrands(records)
+
+        assertThat(gradeStrandScores[STEM]!! + ncaeStrandScores[STEM]!!, `is`(equalTo(overallScores[STEM])))
+    }
+    
 }
 
 
