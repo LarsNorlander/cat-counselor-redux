@@ -166,3 +166,13 @@ Counselor
 
 + computeStatistics(strandName: String, records:Map<Criterion, Map<Item, Score>>): StrandStatistics
 ```
+
+## June 6, 2018
+
+Now that I have a counselor that's tested for the things I know it should be doing for time, what's next? I'm thinking
+of adding a REST API. Testing REST APIs is something I haven't really done, but to make things simple, the logic that's
+going to go into validation for the REST API should fall into it's own object or function that could be tested in 
+isolation. That way, testing the REST APIs won't be as problematic.
+
+The REST APIs will have to take in data but, how hard should validation be? Let's save that for after work since the
+workday is about to start. 

@@ -3,10 +3,11 @@ package com.larsnorlander.catcounselorredux.counselor
 import Criterion
 import Item
 import Score
+import Specification
 import java.util.*
 import java.util.stream.DoubleStream
 
-class Counselor(private val specification: List<Strand>) {
+class Counselor(private val specification: Specification) {
     fun computeStatistics(strandName: String, records: Map<Criterion, Map<Item, Score>>): Map<Criterion, Statistics> {
         val strand = findStrand(strandName)
         val statistics = mutableMapOf<Criterion, Statistics>()
