@@ -72,15 +72,13 @@ class Counselor(private val specification: List<Strand>) {
     }
 
     fun scoreStrands(records: Map<Criterion, Map<Item, Score>>): Map<String, Score> {
-        val strandScores: MutableMap<String, Score> = mutableMapOf()
-        for (strand in specification)
-            strandScores[strand.name] = 0.0
-        for ((criterion, scores) in records) {
-            scoreStrands(criterion, scores).forEach({ strand, criterionScore ->
-                strandScores[strand] =  strandScores[strand]!! + criterionScore;
-            })
-        }
-        return strandScores
+        return records.map { scoreStrands(it.key, it.value) }
+                .reduce(::reduceStrandScores)
+    }
+
+    private fun reduceStrandScores(a: Map<String, Score>, b: Map<String, Score>): Map<String, Score> {
+        val resultMap = mutableMapOf<String, Score>()
+        a.keys.forEach { resultMap[it] = a[it]!! + b[it]!! }
+        return resultMap
     }
 }
-
