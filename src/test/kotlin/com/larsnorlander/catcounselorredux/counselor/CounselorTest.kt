@@ -22,8 +22,8 @@ class CounselorTest {
 
     @Test
     fun `get statistics for strand with 1 match and 1 miss for 1 criterion`() {
-        val specification = listOf(
-                Strand(name = ANY_STRAND_NAME, requirements = mapOf(ANY_CRITERION to setOf("A", "B"))))
+        val specification = Specification(listOf(
+                Strand(name = ANY_STRAND_NAME, requirements = mapOf(ANY_CRITERION to setOf("A", "B")))))
         val records: Map<Criterion, Map<Item, Score>> = mapOf(
                 ANY_CRITERION to mapOf(
                         "A" to UPPER_BOUND_SCORE,
@@ -39,8 +39,8 @@ class CounselorTest {
 
     @Test
     fun `average grade is included in strengths`() {
-        val specification = listOf(
-                Strand(name = ANY_STRAND_NAME, requirements = mapOf(ANY_CRITERION to setOf("A", "B"))))
+        val specification = Specification(listOf(
+                Strand(name = ANY_STRAND_NAME, requirements = mapOf(ANY_CRITERION to setOf("A", "B")))))
         val records: Map<Criterion, Map<Item, Score>> = mapOf(
                 ANY_CRITERION to mapOf(
                         "A" to UPPER_BOUND_SCORE,
@@ -55,14 +55,14 @@ class CounselorTest {
 
     @Test(expected = IllegalArgumentException::class)
     fun `throws exception for non-existent strand`() {
-        Counselor(emptyList()).computeStatistics(ANY_STRAND_NAME, emptyMap())
+        Counselor(Specification(emptyList())).computeStatistics(ANY_STRAND_NAME, emptyMap())
     }
 
     @Test
     fun `strand with more matches scores higher`() {
-        val specification = listOf(
+        val specification = Specification(listOf(
                 Strand(name = STEM, requirements = mapOf(ANY_CRITERION to setOf("A", "B"))),
-                Strand(name = ABM, requirements = mapOf(ANY_CRITERION to setOf("A", "C"))))
+                Strand(name = ABM, requirements = mapOf(ANY_CRITERION to setOf("A", "C")))))
         val scores: Map<Item, Score> = mapOf(
                 "A" to UPPER_BOUND_SCORE,
                 "B" to UPPER_BOUND_SCORE,
@@ -77,9 +77,9 @@ class CounselorTest {
 
     @Test
     fun `strand with equal matches but less misses scores higher`() {
-        val specification = listOf(
+        val specification = Specification(listOf(
                 Strand(name = STEM, requirements = mapOf(ANY_CRITERION to setOf("A", "B", "C"))),
-                Strand(name = ABM, requirements = mapOf(ANY_CRITERION to setOf("A", "B"))))
+                Strand(name = ABM, requirements = mapOf(ANY_CRITERION to setOf("A", "B")))))
         val scores: Map<Item, Score> = mapOf(
                 "A" to UPPER_BOUND_SCORE,
                 "B" to UPPER_BOUND_SCORE,
@@ -94,9 +94,9 @@ class CounselorTest {
 
     @Test
     fun `strands with equal matches and misses score the same`() {
-        val specification = listOf(
+        val specification = Specification(listOf(
                 Strand(name = STEM, requirements = mapOf(ANY_CRITERION to setOf("A", "B", "C"))),
-                Strand(name = ABM, requirements = mapOf(ANY_CRITERION to setOf("A", "B", "C"))))
+                Strand(name = ABM, requirements = mapOf(ANY_CRITERION to setOf("A", "B", "C")))))
         val scores: Map<Item, Score> = mapOf(
                 "A" to UPPER_BOUND_SCORE,
                 "B" to UPPER_BOUND_SCORE,
@@ -111,9 +111,9 @@ class CounselorTest {
 
     @Test
     fun `add strand scores across criteria`() {
-        val specification = listOf(
+        val specification = Specification(listOf(
             Strand(name = STEM, requirements = mapOf("Grades" to setOf("A", "B"), "NCAE" to setOf("X", "Y"))),
-            Strand(name = ABM, requirements = mapOf("Grades" to setOf("A", "C"), "NCAE" to setOf("X", "Z"))))
+            Strand(name = ABM, requirements = mapOf("Grades" to setOf("A", "C"), "NCAE" to setOf("X", "Z")))))
         val counselor = Counselor(specification)
         val gradeScores: Map<Item, Score> = mapOf(
                 "A" to UPPER_BOUND_SCORE,

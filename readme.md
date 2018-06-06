@@ -176,3 +176,10 @@ isolation. That way, testing the REST APIs won't be as problematic.
 
 The REST APIs will have to take in data but, how hard should validation be? Let's save that for after work since the
 workday is about to start. 
+
+## June 7, 2018
+
+Instead of going for a REST API first, I think I'll be doing a UI instead using thymeleaf. For this, it could be a 
+simple form that shows all the fields that matter, taken from the specification so that students could fill up their 
+data. So for that, I'll have to create a method that returns a Map of Criteria and all it's significant fields (that's
+totally a made up term for now.)

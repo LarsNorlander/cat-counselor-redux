@@ -1,7 +1,7 @@
 package com.larsnorlander.catcounselorredux.counselor.spring
 
-import Specification
 import com.larsnorlander.catcounselorredux.counselor.Counselor
+import com.larsnorlander.catcounselorredux.counselor.Specification
 import com.larsnorlander.catcounselorredux.counselor.Strand
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -16,7 +16,7 @@ class CounselorSpringConfig {
 
     @Bean
     fun specification(): Specification {
-        return listOf(
+        return Specification(listOf(
                 Strand(name = "STEM", requirements = mapOf(
                         "Grades" to setOf(
                                 "Science",
@@ -54,7 +54,7 @@ class CounselorSpringConfig {
                                 "Verbal Ability"
                         )
                 ))
-        )
+        ))
     }
 
 }
