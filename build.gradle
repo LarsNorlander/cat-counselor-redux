@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		kotlinVersion = '1.2.30'
+		kotlinVersion = '1.2.41'
 		springBootVersion = '2.0.1.RELEASE'
 	}
 	repositories {
@@ -41,12 +41,11 @@ repositories {
 
 
 dependencies {
-	compile('org.springframework.boot:spring-boot-starter')
+	//compile('org.springframework.boot:spring-boot-starter')
 	compile('org.springframework.boot:spring-boot-starter-web')
-	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
 	compileOnly("org.springframework.boot:spring-boot-devtools")
 
-	compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.+"
+	compile('com.fasterxml.jackson.module:jackson-module-kotlin')
 
 	compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	compile("org.jetbrains.kotlin:kotlin-reflect")
