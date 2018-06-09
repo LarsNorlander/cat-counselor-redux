@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hello, World</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+<div id="app">
+  <ul>
+    <li v-for="criterion in Object.keys(specification)">
+      {{criterion}}
+      <ul>
+        <li v-for="item in specification[criterion]">{{item}}</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+</body>
+
+<script>
+  var app = new Vue({
+    el: '#app',
+    data: {
+      specification: {
+        "Grades": [
+          "Science",
+          "Math",
+          "Computer",
+          "English",
+          "Values Education",
+          "Social Studies"
+        ],
+        "NCAE": [
+          "Scientific Ability",
+          "Mathematical Ability",
+          "Logical Reasoning Ability",
+          "Visual Manipulative Ability",
+          "Reading Comprehension",
+          "Verbal Ability",
+          "Non Verbal Ability"
+        ]
+      }
+    }
+  })
+</script>
+</html>
