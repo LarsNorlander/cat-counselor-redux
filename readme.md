@@ -183,3 +183,15 @@ Instead of going for a REST API first, I think I'll be doing a UI instead using 
 simple form that shows all the fields that matter, taken from the specification so that students could fill up their 
 data. So for that, I'll have to create a method that returns a Map of Criteria and all it's significant fields (that's
 totally a made up term for now.)
+
+## June 10, 2018
+
+So! Turns out IntelliJ can't resolve the attributes for Thymeleaf when using Kotlin for the Controller. Which is, kinda
+a shame. But I've already reported it to them [here](https://youtrack.jetbrains.com/issue/KT-24830). So instead, I've 
+decided that I'll do a proper frontend instead using Vue.js. Why Vue.js? Well, it's pretty simple and that's all I need.
+As of now, the UI is just going to be a dynamically generated form that then sends a request to the counselor and gets a
+ranking of all strands.
+
+I've used Angular in the past with TypeScript but, for this project it feels a little overkill. I'm actually surprised 
+with all the things you could do with JavaScript now. And so for my #100DaysOfCode, I'm adjusting my goal a bit from 
+just learning Kotlin to creating web applications using Kotlin and JavaScript.
