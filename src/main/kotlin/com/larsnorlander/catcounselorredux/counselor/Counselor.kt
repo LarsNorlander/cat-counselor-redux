@@ -7,15 +7,15 @@ import java.util.*
 import java.util.stream.DoubleStream
 
 class Counselor(private val specification: Specification) {
-    fun computeStatistics(strandName: String, records: Map<Criterion, Map<Item, Score>>): Map<Criterion, Statistics> {
+    fun computeStatistics(strandName: String, records: Map<Criterion, Map<Item, Score>>): Map<Criterion, MatchesAndMisses> {
         val strand = findStrand(strandName)
-        val statistics = mutableMapOf<Criterion, Statistics>()
+        val matchesAndMisses = mutableMapOf<Criterion, MatchesAndMisses>()
         for ((criterion, scores) in records) {
             if (strand doesNotHaveRequirementsFor criterion) continue
             val strengths = computeStrengths(scores)
-            statistics[criterion] = strand.statistics(criterion, strengths)
+            matchesAndMisses[criterion] = strand.matchesAndMisses(criterion, strengths)
         }
-        return statistics
+        return matchesAndMisses
     }
 
     private fun findStrand(strandName: String) = specification.strands.find { it.name == strandName }
@@ -24,8 +24,8 @@ class Counselor(private val specification: Specification) {
     private infix fun Strand.doesNotHaveRequirementsFor(criterion: Criterion) =
             !this.requirements.containsKey(criterion)
 
-    private fun Strand.statistics(criterion: Criterion, strengths: Set<Item>): Statistics {
-        return Statistics(
+    private fun Strand.matchesAndMisses(criterion: Criterion, strengths: Set<Item>): MatchesAndMisses {
+        return MatchesAndMisses(
                 matches = strengths.intersect(this.requirements[criterion]!!),
                 misses = this.requirements[criterion]!!.minus(strengths))
     }
@@ -37,19 +37,19 @@ class Counselor(private val specification: Specification) {
 
     fun scoreStrands(criterion: Criterion, scores: Map<Item, Score>): Map<String, Score> {
         val strengths = computeStrengths(scores)
-        val statistics = mutableMapOf<String, Statistics>()
+        val matchesAndMisses = mutableMapOf<String, MatchesAndMisses>()
         for (strand in specification.strands) {
             if (!strand.requirements.containsKey(criterion)) continue
-            statistics[strand.name] = strand.statistics(criterion, strengths)
+            matchesAndMisses[strand.name] = strand.matchesAndMisses(criterion, strengths)
         }
-        val groupedStrands = groupStrandsByStatistics(statistics)
+        val groupedStrands = groupStrandsByMatchesAndMisses(matchesAndMisses)
         return assignScores(groupedStrands)
     }
 
     private val descendingMatchesAndAscendingMisses = compareByDescending<Pair<Int, Int>> { it.first }
             .thenBy { it.second }
 
-    private fun groupStrandsByStatistics(strandStatistics: Map<String, Statistics>): SortedMap<Pair<Int, Int>, List<String>> {
+    private fun groupStrandsByMatchesAndMisses(strandStatistics: Map<String, MatchesAndMisses>): SortedMap<Pair<Int, Int>, List<String>> {
         return specification.strands.map { it.name }.groupBy { strand ->
             strandStatistics[strand]!!.matches.size to strandStatistics[strand]!!.misses.size
         }.toSortedMap(comparator = descendingMatchesAndAscendingMisses)

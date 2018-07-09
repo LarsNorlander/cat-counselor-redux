@@ -29,7 +29,7 @@ class CounselorTest {
                         "A" to UPPER_BOUND_SCORE,
                         "B" to LOWER_BOUND_SCORE))
 
-        val result: Map<Criterion, Statistics> = Counselor(specification).computeStatistics(
+        val result: Map<Criterion, MatchesAndMisses> = Counselor(specification).computeStatistics(
                 strandName = ANY_STRAND_NAME,
                 records = records)
 
@@ -46,7 +46,7 @@ class CounselorTest {
                         "A" to UPPER_BOUND_SCORE,
                         "B" to UPPER_BOUND_SCORE))
 
-        val result: Map<Criterion, Statistics> = Counselor(specification).computeStatistics(
+        val result: Map<Criterion, MatchesAndMisses> = Counselor(specification).computeStatistics(
                 strandName = ANY_STRAND_NAME,
                 records = records)
 
