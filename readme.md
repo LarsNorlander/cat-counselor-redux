@@ -1,7 +1,7 @@
 # CAT Counselor Redux: A 100 Days of Code Project
 
 This is a rewrite of the application for my college thesis, CAT Counselor. CAT Counselor used to compose of two parts,
-a [CAT Ranker](https://github.com/LarsNorlander/cat-ranker), which was just a REST API that took in the data needed by
+a [CAT Ranker](https://github.com/LarsNorlander/cat-ranker), which was just a Web API that took in the data needed by
 the main system – [CAT Counselor](https://github.com/LarsNorlander/cat-counselor), and spat out the complete results.
 
 The reason for this split was just so that I could finish my thesis as quickly as possible. Ranker was written in Groovy
@@ -170,16 +170,16 @@ Counselor
 ## June 6, 2018
 
 Now that I have a counselor that's tested for the things I know it should be doing for time, what's next? I'm thinking
-of adding a REST API. Testing REST APIs is something I haven't really done, but to make things simple, the logic that's
-going to go into validation for the REST API should fall into it's own object or function that could be tested in 
-isolation. That way, testing the REST APIs won't be as problematic.
+of adding a Web API. Testing Web APIs is something I haven't really done, but to make things simple, the logic that's
+going to go into validation for the Web API should fall into it's own object or function that could be tested in 
+isolation. That way, testing the Web APIs won't be as problematic.
 
-The REST APIs will have to take in data but, how hard should validation be? Let's save that for after work since the
+The Web APIs will have to take in data but, how hard should validation be? Let's save that for after work since the
 workday is about to start. 
 
 ## June 7, 2018
 
-Instead of going for a REST API first, I think I'll be doing a UI instead using thymeleaf. For this, it could be a 
+Instead of going for a Web API first, I think I'll be doing a UI instead using thymeleaf. For this, it could be a 
 simple form that shows all the fields that matter, taken from the specification so that students could fill up their 
 data. So for that, I'll have to create a method that returns a Map of Criteria and all it's significant fields (that's
 totally a made up term for now.)
